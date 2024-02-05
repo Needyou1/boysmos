@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    #question {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Interactive Quiz</h1>
+    <div id="question"></div>
+    <form id="quizForm">
+      <input type="radio" name="choice" id="choice1" value="choice1">
+      <label for="choice1" id="label1"></label><br>
+      <input type="radio" name="choice" id="choice2" value="choice2">
+      <label for="choice2" id="label2"></label><br>
+      <input type="radio" name="choice" id="choice3" value="choice3">
+      <label for="choice3" id="label3"></label><br>
+      <input type="radio" name="choice" id="choice4" value="choice4">
+      <label for="choice4" id="label4"></label><br>
+      <button type="button" onclick="checkAnswer()">Submit Answer</button>
+    </form>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Cambodia area?(in km^2)",
+        choices: ["100", "200", "300", "181035"],
+        correctAnswer: "181035"
+      },
+      {
+        question: "Cambodia Capital'?",
+        choices: ["Bankork", "Ho chi minh", "Phnom Penh", "North korea"],
+        correctAnswer: "Phnom Penh"
+      },
+      {
+        question: "What is the tallest mountain in the world?",
+        choices: ["Mount Everest", "Mount Kilimanjaro", "K2", "Makalu"],
+        correctAnswer: "Mount Everest"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function displayQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById('question').textContent = q.question;
+      document.getElementById('label1').textContent = q.choices[0];
+      document.getElementById('label2').textContent = q.choices[1];
+      document.getElementById('label3').textContent = q.choices[2];
+      document.getElementById('label4').textContent = q.choices[3];
+    }
+
+    function checkAnswer() {
+      const userChoice = document.querySelector('input[name="choice"]:checked');
+      if (!userChoice) {
+        document.getElementById('result').textContent = 'Please select an answer.';
+        return;
+      }
+
+      if (userChoice.value === questions[currentQuestion].correctAnswer) {
+        score++;
+        document.getElementById('result').textContent = 'Correct!';
+      } else {
+        document.getElementById('result').textContent = `Incorrect. The correct answer is ${questions[currentQuestion].correctAnswer}.`;
+      }
+
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        displayQuestion();
+      } else {
+        document.getElementById('question').textContent = 'Quiz Complete!';
+        document.getElementById('quizForm').style.display = 'none';
+        document.getElementById('result').textContent = `You scored ${score} out of ${questions.length} questions.`;
+      }
+    }
+
+    displayQuestion();
+  </script>
+</body>
+</html>
